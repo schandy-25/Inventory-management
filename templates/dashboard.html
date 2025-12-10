@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">📊 Inventory Dashboard</h2>
+
+<!-- KPI Summary -->
+<div class="row text-center mb-4">
+  <div class="col-md-4">
+    <div class="card bg-primary text-white shadow-sm p-3">
+      <h5>Total Products</h5>
+      <h3>{{ total_products }}</h3>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card bg-success text-white shadow-sm p-3">
+      <h5>Total Revenue</h5>
+      <h3>${{ "%.2f"|format(total_revenue) }}</h3>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card bg-info text-white shadow-sm p-3">
+      <h5>Total Stock</h5>
+      <h3>{{ total_stock }}</h3>
+    </div>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="row">
+  <div class="col-md-6 mb-4"><canvas id="stockChart"></canvas></div>
+  <div class="col-md-6 mb-4"><canvas id="cityChart"></canvas></div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4"><canvas id="salesChart"></canvas></div>
+  <div class="col-md-6 mb-4">
+    <h5>⚠️ Low Stock Alerts</h5>
+    <table class="table table-striped">
+      <thead><tr><th>Product</th><th>Size</th><th>Remaining</th></tr></thead>
+      <tbody>
+        {% for r in low_stock %}
+        <tr><td>{{ r.ProductName }}</td><td>{{ r.Size }}</td><td>{{ r.Remaining }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// ✅ Ensure JSON is safe for JS
+const stockData = {{ stock_data | tojson | safe }};
+const cityData = {{ city_data | tojson | safe }};
+const salesData = {{ sales_data | tojson | safe }};
+
+// Stock by Product
+new Chart(document.getElementById('stockChart'), {
+  type: 'bar',
+  data: {
+    labels: stockData.map(r => r.ProductName),
+    datasets: [{
+      label: 'Available Stock',
+      data: stockData.map(r => r.Stock),
+      backgroundColor: '#0d6efd'
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+// Stock by City
+new Chart(document.getElementById('cityChart'), {
+  type: 'doughnut',
+  data: {
+    labels: cityData.map(r => r.CityName),
+    datasets: [{
+      data: cityData.map(r => r.Stock),
+      backgroundColor: ['#198754','#0dcaf0','#ffc107','#dc3545','#6f42c1']
+    }]
+  }
+});
+
+// Top 5 Products by Revenue
+new Chart(document.getElementById('salesChart'), {
+  type: 'bar',
+  data: {
+    labels: salesData.map(r => r.ProductName),
+    datasets: [{
+      label: 'Revenue ($)',
+      data: salesData.map(r => r.Revenue),
+      backgroundColor: '#198754'
+    }]
+  },
+  options: { responsive: true }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>View Product Inventory Across Locations</h2>
+
+<form method="POST" action="{{ url_for('view_inventory_submit') }}" class="mb-4 mt-3">
+  <label>Product Name</label>
+  <input name="product_name" class="form-control" required>
+  <button class="btn btn-info mt-3" type="submit">View Inventory</button>
+</form>
+
+{% if results %}
+<hr>
+<h4>Inventory Details</h4>
+<table class="table table-striped mt-3">
+  <thead>
+    <tr><th>Store</th><th>City</th><th>Product</th><th>Size</th><th>Quantity</th></tr>
+  </thead>
+  <tbody>
+    {% for r in results %}
+    <tr>
+      <td>{{ r.Store }}</td>
+      <td>{{ r.City }}</td>
+      <td>{{ r.Product }}</td>
+      <td>{{ r.Size }}</td>
+      <td>{{ r.Quantity }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+erDiagram
+  CITIES {
+    integer CityId PK
+    text CityName
+  }
+  STORES {
+    integer StoreId PK
+    integer CityId
+  }
+  VENDORS {
+    integer VendorNumber PK
+    text VendorName
+  }
+  PRODUCTS {
+    integer ProductId PK
+    integer Brand
+    text ProductName
+    text Size
+  }
+  INVOICES {
+    integer InvoiceId PK
+    integer StoreId
+    integer VendorNumber
+    date InvoiceDate
+  }
+  INVOICELINES {
+    integer InvoiceLineId PK
+    integer InvoiceId
+    integer ProductId
+    numeric PurchasePrice
+    integer Quantity
+    numeric LineTotal
+  }
+  SALES {
+    integer SaleId PK
+    integer StoreId
+    integer ProductId
+    date SaleDate
+    integer Quantity
+    real SalePrice
+    real TotalAmount
+  }
+  CITIES ||--o{ STORES : references
+  VENDORS ||--o{ INVOICES : references
+  STORES ||--o{ INVOICES : references
+  PRODUCTS ||--o{ INVOICELINES : references
+  INVOICES ||--o{ INVOICELINES : references
+  PRODUCTS ||--o{ SALES : references
+  STORES ||--o{ SALES : references

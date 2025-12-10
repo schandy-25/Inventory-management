@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Record a Sale</h2>
+<form method="POST" action="{{ url_for('record_sale_submit') }}" class="mt-4">
+  <div class="row g-3">
+    <div class="col-md-4"><label>City</label><input name="city" class="form-control" required></div>
+    <div class="col-md-4"><label>Store ID</label><input name="store_id" type="number" class="form-control" required></div>
+    <div class="col-md-4"><label>Product Name</label><input name="product_name" class="form-control" required></div>
+    <div class="col-md-4"><label>Size</label><input name="size" class="form-control" required></div>
+    <div class="col-md-4"><label>Sale Date</label><input name="sale_date" type="date" class="form-control" required></div>
+    <div class="col-md-4"><label>Quantity</label><input name="quantity" type="number" class="form-control" required></div>
+    <div class="col-md-4"><label>Sale Price</label><input name="sale_price" type="number" step="0.01" class="form-control"></div>
+  </div>
+  <button class="btn btn-success mt-3" type="submit">Record Sale</button>
+</form>
+
+{% if result %}
+<hr>
+<h4>Sale Record</h4>
+<pre>{{ result | tojson(indent=2) }}</pre>
+{% endif %}
+{% endblock %}

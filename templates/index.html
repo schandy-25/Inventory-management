@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+  <h1>Welcome to Inventory Management System</h1>
+  <p class="lead mt-3">Manage purchases, update quantities, record sales, and view inventory — all from one place.</p>
+  <hr>
+  <a href="{{ url_for('add_purchase_form') }}" class="btn btn-primary btn-lg">Add New Purchase</a>
+  <a href="{{ url_for('view_inventory_form') }}" class="btn btn-success btn-lg">View Inventory</a>
+</div>
+{% endblock %}

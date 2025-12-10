@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Update Existing Purchase</h2>
+<form method="POST" action="{{ url_for('update_purchase_submit') }}" class="mt-4">
+
+  <div class="row g-3">
+    <div class="col-md-4"><label>City</label><input name="city" class="form-control" required></div>
+    <div class="col-md-4"><label>Store ID</label><input name="store_id" type="number" class="form-control" required></div>
+    <div class="col-md-4"><label>Vendor Name</label><input name="vendor_name" class="form-control" required></div>
+    <div class="col-md-6"><label>Product Name</label><input name="product_name" class="form-control" required></div>
+    <div class="col-md-6"><label>Size</label><input name="size" class="form-control" required></div>
+    <div class="col-md-6"><label>Invoice Date</label><input name="invoice_date" type="date" class="form-control" required></div>
+    <div class="col-md-6"><label>Quantity</label><input name="quantity" type="number" class="form-control" required></div>
+  </div>
+
+  <button class="btn btn-warning mt-3" type="submit">Update Purchase</button>
+</form>
+
+{% if result %}
+<hr>
+<h4>Updated Record</h4>
+<pre>{{ result | tojson(indent=2) }}</pre>
+{% endif %}
+{% endblock %}
